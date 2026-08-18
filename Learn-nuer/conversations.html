@@ -4,20 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversations — Learn Nuer</title>
-    <title>Numbers — Learn Nuer</title>
     <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="images/favicon.png" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#102a43">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- Optimized Font Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    
     <style>
         body {
-            font-family: "Times New Roman", Times, serif;
+            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f8f9fa;
@@ -32,6 +34,7 @@
 
         header h1 {
             margin: 0 0 0.5rem 0;
+            font-family: "Playfair Display", Georgia, serif;
         }
 
         nav a {
@@ -62,7 +65,7 @@
         }
 
         .topic-btn {
-            font-family: "Times New Roman", Times, serif;
+            font-family: inherit;
             font-size: 0.95rem;
             padding: 8px 14px;
             border: 1px solid #2563eb;
@@ -86,7 +89,7 @@
         }
 
         .toggle-btn {
-            font-family: "Times New Roman", Times, serif;
+            font-family: inherit;
             font-size: 1rem;
             padding: 8px 16px;
             border: 1px solid #1a1a1a;
@@ -121,12 +124,13 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-radius: 12px;
             background: #ffffff;
             border: 1px solid #e2e8f0;
+            will-change: transform;
         }
 
         .flashcard.flipped {
@@ -138,11 +142,12 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 1.5rem;
-            box-sizing: border-box;
+            box-sizing: border-border-box;
             border-radius: 12px;
         }
 
@@ -197,7 +202,7 @@
         }
 
         .action-btn {
-            font-family: "Times New Roman", Times, serif;
+            font-family: inherit;
             font-size: 1rem;
             padding: 8px 16px;
             border: 1px solid #1a1a1a;
@@ -271,7 +276,7 @@
         }
 
         .small-audio-btn {
-            font-family: "Times New Roman", Times, serif;
+            font-family: inherit;
             background: #1a1a1a;
             color: #ffffff;
             border: none;
@@ -325,12 +330,12 @@
                 <div class="flashcard" id="card">
                     <div class="card-face card-front">
                         <span class="speaker-tag" id="speaker-front">Jɔk</span>
-                        <div class="dialogue-text" id="nuer-text">Loading...</div>
+                        <div class="dialogue-text" id="nuer-text">...</div>
                         <div class="flip-hint">Click card to flip for English 🔄</div>
                     </div>
                     <div class="card-face card-back">
                         <span class="speaker-tag" id="speaker-back">Jɔk</span>
-                        <div class="dialogue-text" id="english-text">Loading...</div>
+                        <div class="dialogue-text" id="english-text">...</div>
                         <div class="flip-hint">Click card to flip for Nuer 🔄</div>
                     </div>
                 </div>
@@ -342,7 +347,7 @@
                 <button class="action-btn" id="next-btn" onclick="nextCard()">Next →</button>
             </div>
 
-            <div class="progress" id="progress-text">Card 1 of 7</div>
+            <div class="progress" id="progress-text">Card 1</div>
         </section>
 
         <!-- Mode 2: Full Conversation View -->
@@ -359,20 +364,8 @@
         </div>
     </footer>
 
-
     <script>
-    let dialogues = [];
-    let activeTopicIndex = 0;
-    let currentIndex = 0;
-
-    const cardContainer = document.getElementById('card-container');
-    const card = document.getElementById('card');
-
-    cardContainer.addEventListener('click', () => {
-        card.classList.toggle('flipped');
-    });
-
-    // Integrated Fallback Array so local offline viewing works instantly
+    // Embedded dataset used for instantaneous zero-latency rendering
     const defaultDialogues = [
       {
         "id": "department_store",
@@ -388,18 +381,18 @@
         ]
       }, 
       {
-    "id": "favorite_sports",
-    "title": "Favorite Sports",
-    "lines": [
-      { "id": 1, "speaker": "Mac", "english": "Hey Jock, what is your favorite sport?", "nuer": "Ɣëy Jɔk, ɛ ŋar ŋukä nhɔk lɔcdɛ jɛ ɛlɔ̱ŋ ɔ?" },
-      { "id": 2, "speaker": "Jɔk", "english": "My favorite sport is tennis. What is your favorite sport?", "nuer": "Ŋarä min nhɔakä ɛ tɛnith. Ɛ ŋar ŋukä nhɔk lɔcdu jɛ ɔ?" },
-      { "id": 3, "speaker": "Mac", "english": "I like to play baseball, but I like tennis, too! Who do you play with?", "nuer": "Ɣän nhɔk lɔcdä ŋar kɛ yɔ̱ɔ̱l, dundɛ ɣöö nhɔakä tɛnith, bäni̱! Ɛ ŋa la ŋarɛ kɛɛl ɔ?" },
-      { "id": 4, "speaker": "Jɔk", "english": "I play with my father. He’s a good tennis player.", "nuer": "La ŋarä kɛɛl kɛ gua̱a̱r. Jɛn ɛ ŋäär tɛnithä mi gɔaa." },
-      { "id": 5, "speaker": "Mac", "english": "How often do you play?", "nuer": "La yiɛn ɛ ŋar ni̱kä di̱?" },
-      { "id": 6, "speaker": "Jɔk", "english": "We play every weekend. Do you want to play with us?", "nuer": "La nɛy ɛ ŋar ni̱ni̱ lɔ̱ŋä diaal. Ji̱n go̱o̱ri̱ ŋar kɛ kɔ kɛɛl?" },
-      { "id": 7, "speaker": "Mac", "english": "Okay!", "nuer": "Ɣɔ̱ɔ̱!" }
-    ]
-  },
+        "id": "favorite_sports",
+        "title": "Favorite Sports",
+        "lines": [
+          { "id": 1, "speaker": "Mac", "english": "Hey Jock, what is your favorite sport?", "nuer": "Ɣëy Jɔk, ɛ ŋar ŋukä nhɔk lɔcdɛ jɛ ɛlɔ̱ŋ ɔ?" },
+          { "id": 2, "speaker": "Jɔk", "english": "My favorite sport is tennis. What is your favorite sport?", "nuer": "Ŋarä min nhɔakä ɛ tɛnith. Ɛ ŋar ŋukä nhɔk lɔcdu jɛ ɔ?" },
+          { "id": 3, "speaker": "Mac", "english": "I like to play baseball, but I like tennis, too! Who do you play with?", "nuer": "Ɣän nhɔk lɔcdä ŋar kɛ yɔ̱ɔ̱l, dundɛ ɣöö nhɔakä tɛnith, bäni̱! Ɛ ŋa la ŋarɛ kɛɛl ɔ?" },
+          { "id": 4, "speaker": "Jɔk", "english": "I play with my father. He’s a good tennis player.", "nuer": "La ŋarä kɛɛl kɛ gua̱a̱r. Jɛn ɛ ŋäär tɛnithä mi gɔaa." },
+          { "id": 5, "speaker": "Mac", "english": "How often do you play?", "nuer": "La yiɛn ɛ ŋar ni̱kä di̱?" },
+          { "id": 6, "speaker": "Jɔk", "english": "We play every weekend. Do you want to play with us?", "nuer": "La nɛy ɛ ŋar ni̱ni̱ lɔ̱ŋä diaal. Ji̱n go̱o̱ri̱ ŋar kɛ kɔ kɛɛl?" },
+          { "id": 7, "speaker": "Mac", "english": "Okay!", "nuer": "Ɣɔ̱ɔ̱!" }
+        ]
+      },
       {
         "id": "sickness_drugstore",
         "title": "Sickness & Drugstore",
@@ -414,22 +407,33 @@
       }
     ];
 
-    async function loadDialogues() {
-        try {
-            const response = await fetch('dialogues.json');
-            if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
-            dialogues = await response.json();
-        } catch (error) {
-            console.warn("Fetch failed (running offline via file://). Loading embedded dialogues.", error);
-            dialogues = defaultDialogues;
-        }
+    let dialogues = defaultDialogues;
+    let activeTopicIndex = 0;
+    let currentIndex = 0;
 
-        if (dialogues && dialogues.length > 0) {
-            renderTopicButtons();
-            selectTopic(0);
-        } else {
-            document.getElementById('nuer-text').textContent = "No dialogues available.";
-        }
+    const cardContainer = document.getElementById('card-container');
+    const card = document.getElementById('card');
+
+    cardContainer.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+    });
+
+    // Synchronous execution on DOM load
+    function init() {
+        renderTopicButtons();
+        selectTopic(0);
+        
+        // Background check for dynamic updates (does not block initial view)
+        fetch('dialogues.json')
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+                if (data && JSON.stringify(data) !== JSON.stringify(dialogues)) {
+                    dialogues = data;
+                    renderTopicButtons();
+                    updateCard();
+                }
+            })
+            .catch(() => {}); // Quietly fallback to defaultDialogues
     }
 
     function renderTopicButtons() {
@@ -573,7 +577,7 @@
         }
     });
 
-    document.addEventListener('DOMContentLoaded', loadDialogues);
+    document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
