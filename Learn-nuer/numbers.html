@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numbers — Learn Nuer</title>
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="images/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#102a43">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- Fonts & CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            font-family: "Times New Roman", Times, Georgia, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .converter-box {
+            background: #ffffff;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        input[type="number"] {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1.2rem;
+            padding: 10px 14px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+
+        .result-display {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f4f8;
+            border-left: 5px solid #2b6cb0;
+            font-size: 1.3rem;
+            font-weight: bold;
+            min-height: 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 2rem 0;
+            background: #ffffff;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2b6cb0;
+            color: #ffffff;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+
+            <div class="brand">
+                <div class="brand-mark">Ɲ</div>
+
+                <div>
+                    <h1>Learn Nuer — Thok Nath</h1>
+                    <p>Digital preservation and educational hub for the Nuer language</p>
+                </div>
+            </div>
+
+            <nav>
+
+                <a href="index.html" class="logo-link">
+                    <img src="images/logo.png" alt="Learn Nuer Logo" class="site-logo">
+                </a>
+                <a href="index.html">🏠 Home</a>
+                <a href="lessons.html">🎓 Lessons</a>
+                <a href="dictionary.html">📖 Dictionary</a>
+                <a href="grammar.html">📚 Grammar</a>
+                <a href="numbers.html" class="active">🔢 Numbers</a>
+                <a href="time.html">🕐 Time & Dates</a>
+                <a href="conversations.html">💬 Conversations</a>
+                <a href="keyboard.html">⌨️ Keyboard</a>
+                <a href="about.html">ℹ️ About</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+        <h2>🔢 Interactive Nuer Number Converter</h2>
+
+        <div class="converter-box">
+            <label for="number-input"><strong>Enter any whole number (-999,999,999,999,999 to 999,999,999,999,999):</strong></label>
+            <input type="number" id="number-input" placeholder="e.g. 0, 25, 350, -12, 1000..." step="1">
+            
+            <div id="number-output" class="result-display">
+                Enter a number above to generate Nuer translation...
+            </div>
+        </div>
+
+        <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e2e8f0;">
+
+        <h2>1. Cardinal Digits (0-9)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Numeral</th>
+                    <th>Nuer Term</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>0</td><td>baŋ</td></tr>
+                <tr><td>1</td><td>kɛl</td></tr>
+                <tr><td>2</td><td>rɛw</td></tr>
+                <tr><td>3</td><td>diɔ̱k</td></tr>
+                <tr><td>4</td><td>ŋuaan</td></tr>
+                <tr><td>5</td><td>dhieec</td></tr>
+                <tr><td>6</td><td>bäkɛl</td></tr>
+                <tr><td>7</td><td>bärɔw</td></tr>
+                <tr><td>8</td><td>bädäk</td></tr>
+                <tr><td>9</td><td>bäŋuan</td></tr>
+            </tbody>
+        </table>
+
+        <h2>2. Base Rules for Tens (10-99)</h2>
+        <ul>
+            <li><strong>10:</strong> wäl</li>
+            <li><strong>11–19:</strong> wäl + [digit] (e.g., 11 = <em>wäl kɛl</em>)</li>
+            <li><strong>20–99:</strong> jiɛn da̱ŋ + [multiplier] + wi̱dɛ + [remainder]
+                <ul>
+                    <li>Example: 20 = <em>jiɛn da̱ŋ rɛw</em></li>
+                    <li>Example: 25 = <em>jiɛn da̱ŋ rɛw wi̱dɛ dhieec</em></li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>3. Base Rules for Hundreds (100-999)</h2>
+        <ul>
+            <li><strong>100–199:</strong> kuɔ̱r kɛl (+ wi̱dɛ + remainder)</li>
+            <li><strong>200–999:</strong> kur + [multiplier] + wi̱dɛ + [remainder]
+                <ul>
+                    <li>Example: 200 = <em>kur rɛw</em></li>
+                    <li>Example: 350 = <em>kur diɔ̱k wi̱dɛ jiɛn da̱ŋ dhieec</em></li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>4. Large Scales (Powers of 10)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Scale</th>
+                    <th>Value</th>
+                    <th>Singular</th>
+                    <th>Small Plural (&lt;20)</th>
+                    <th>Large Plural (&ge;20)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Thousand</td><td>10<sup>3</sup></td><td>ki̱th</td><td>ki̱thni̱</td><td>ki̱thni̱ ti̱</td></tr>
+                <tr><td>Million</td><td>10<sup>6</sup></td><td>mi̱li̱öön</td><td>mi̱li̱ööni̱</td><td>mi̱li̱ööni̱ ti̱</td></tr>
+                <tr><td>Billion</td><td>10<sup>9</sup></td><td>bi̱li̱öön</td><td>bi̱li̱ööni̱</td><td>bi̱li̱ööni̱ ti̱</td></tr>
+                <tr><td>Trillion</td><td>10<sup>12</sup></td><td>taanydɔr</td><td>taanydɔri̱</td><td>taanydɔri̱ ti̱</td></tr>
+                <tr><td>Quadrillion</td><td>10<sup>15</sup></td><td>kua-di̱li̱öön</td><td>kua-di̱li̱ööni̱</td><td>kua-di̱li̱ööni̱ ti̱</td></tr>
+            </tbody>
+        </table>
+
+        <h2>5. Negative Numbers</h2>
+        <ul>
+            <li><strong>-1:</strong> ŋuɔk [number]</li>
+            <li><strong>-2 to -19:</strong> ŋuɔɔk da̱ŋ [number]</li>
+            <li><strong>-20 and below:</strong> ŋuɔɔk ti̱ [number]</li>
+        </ul>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <strong>Learn Nuer — Thok Nath</strong>
+                <p>Digital preservation and education for the Nuer language.</p>
+            </div>
+            <p>© 2026 Learn Nuer — Thok Nath</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/numbers.js"></script>
+</body>
+</html>

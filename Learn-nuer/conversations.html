@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversations — Learn Nuer</title>
+    <title>Numbers — Learn Nuer</title>
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="images/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#102a43">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+        }
+
+        header {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 1.5rem 2rem;
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem 0;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-right: 12px;
+            padding: 4px 8px;
+            background: #333333;
+            border-radius: 4px;
+        }
+
+        nav a.active {
+            background: #2563eb;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .dialogue-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .topic-btn {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 0.95rem;
+            padding: 8px 14px;
+            border: 1px solid #2563eb;
+            background: #ffffff;
+            color: #2563eb;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .topic-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .toggle-btn {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1rem;
+            padding: 8px 16px;
+            border: 1px solid #1a1a1a;
+            background: #ffffff;
+            color: #1a1a1a;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .toggle-btn.active {
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+
+        /* Flashcard Styles */
+        .flashcard-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 520px;
+            height: 280px;
+            cursor: pointer;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            border-radius: 12px;
+        }
+
+        .card-front {
+            background-color: #ffffff;
+        }
+
+        .card-back {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            transform: rotateY(180deg);
+        }
+
+        .speaker-tag {
+            align-self: flex-start;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+
+        .card-back .speaker-tag {
+            background: #333333;
+            color: #ffffff;
+            border-color: #555555;
+        }
+
+        .dialogue-text {
+            font-size: 1.35rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .flip-hint {
+            font-size: 0.85rem;
+            color: #888888;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 1.5rem;
+            align-items: center;
+        }
+
+        .action-btn {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1rem;
+            padding: 8px 16px;
+            border: 1px solid #1a1a1a;
+            background: #1a1a1a;
+            color: #ffffff;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .action-btn:disabled {
+            background: #ccc;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .audio-btn {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .audio-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .progress {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: #555555;
+        }
+
+        /* Full Dialogue List View */
+        .dialogue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .dialogue-bubble {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dialogue-content {
+            flex: 1;
+        }
+
+        .speaker-name {
+            font-weight: bold;
+            color: #2563eb;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .nuer-line {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+
+        .english-line {
+            font-size: 1.05rem;
+            color: #475569;
+            font-style: italic;
+        }
+
+        .small-audio-btn {
+            font-family: "Times New Roman", Times, serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 12px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-mark">Ɲ</div>
+                <div>
+                    <h1>Learn Nuer — Thok Nath</h1>
+                    <p>Digital preservation and educational hub for the Nuer language</p>
+                </div>
+            </div>
+
+            <nav>
+                <a href="index.html">🏠 Home</a>
+                <a href="lessons.html">🎓 Lessons</a>
+                <a href="dictionary.html">📖 Dictionary</a>
+                <a href="grammar.html">📚 Grammar</a>
+                <a href="numbers.html">🔢 Numbers</a>
+                <a href="time.html">🕐 Time & Dates</a>
+                <a href="conversations.html" class="active">💬 Conversations</a>
+                <a href="keyboard.html">⌨️ Keyboard</a>
+                <a href="about.html">ℹ️ About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h2 id="topic-title">💬 Dialogue Practice</h2>
+
+        <div class="dialogue-selector" id="topic-selector"></div>
+
+        <div class="view-toggle">
+            <button class="toggle-btn active" id="btn-flashcards" onclick="switchView('flashcards')">🎴 Flashcard Mode</button>
+            <button class="toggle-btn" id="btn-full" onclick="switchView('full')">📜 Full Conversation Mode</button>
+        </div>
+
+        <!-- Mode 1: Interactive Flashcards -->
+        <section id="flashcard-view" class="flashcard-section">
+            <div class="flashcard-container" id="card-container">
+                <div class="flashcard" id="card">
+                    <div class="card-face card-front">
+                        <span class="speaker-tag" id="speaker-front">Jɔk</span>
+                        <div class="dialogue-text" id="nuer-text">Loading...</div>
+                        <div class="flip-hint">Click card to flip for English 🔄</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <span class="speaker-tag" id="speaker-back">Jɔk</span>
+                        <div class="dialogue-text" id="english-text">Loading...</div>
+                        <div class="flip-hint">Click card to flip for Nuer 🔄</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="action-btn" id="prev-btn" onclick="prevCard()">← Previous</button>
+                <button class="action-btn audio-btn" onclick="event.stopPropagation(); playCurrentAudio();">🔊 Pronounce</button>
+                <button class="action-btn" id="next-btn" onclick="nextCard()">Next →</button>
+            </div>
+
+            <div class="progress" id="progress-text">Card 1 of 7</div>
+        </section>
+
+        <!-- Mode 2: Full Conversation View -->
+        <section id="full-view" class="dialogue-list" style="display: none;"></section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <strong>Learn Nuer — Thok Nath</strong>
+                <p>Digital preservation and education for the Nuer language.</p>
+            </div>
+            <p>© 2026 Learn Nuer — Thok Nath</p>
+        </div>
+    </footer>
+
+
+    <script>
+    let dialogues = [];
+    let activeTopicIndex = 0;
+    let currentIndex = 0;
+
+    const cardContainer = document.getElementById('card-container');
+    const card = document.getElementById('card');
+
+    cardContainer.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+    });
+
+    // Integrated Fallback Array so local offline viewing works instantly
+    const defaultDialogues = [
+      {
+        "id": "department_store",
+        "title": "Department Store",
+        "lines": [
+          { "id": 1, "speaker": "Jɔk", "english": "Hey Nyagoa, where are you going?", "nuer": "Ɣëy Nyagɔaa, Ji̱n wi̱i̱ ni̱kä?" },
+          { "id": 2, "speaker": "Nyagɔa", "english": "I am going to the department store. I want to buy a toy and some candy.", "nuer": "Ɣän wa̱a̱ kä thuk ko̱kä. Ɣän göörä kök kɛ duŋ ŋarä kɛnɛ alawani̱." },
+          { "id": 3, "speaker": "Jɔk", "english": "How much money do you have?", "nuer": "Ji̱n ti̱i̱ kɛ yio̱w da̱ŋ di̱?" },
+          { "id": 4, "speaker": "Nyagɔa", "english": "I have 10 dollars.", "nuer": "Ɣän ta̱a̱ kɛ yio̱w da̱ŋ wäl." },
+          { "id": 5, "speaker": "Jɔk", "english": "Are you going to buy a lot of candy?", "nuer": "Wä kɔkni̱ ji̱n kɛ alawani̱ ti̱ ŋuan?" },
+          { "id": 6, "speaker": "Nyagɔa", "english": "Yes, I am. I want to share my candy with you.", "nuer": "Ɣää, wa̱a̱ kɔk. Ɣän göörä bä alawani̱ nyuak kɛ ji̱ kɛɛl." },
+          { "id": 7, "speaker": "Jɔk", "english": "I like you, Nyagoa. You are nice.", "nuer": "Ɣän nhɔakä nyinku Nyagɔaa. Ɛ ji̱n ram mi̱ gɔaa." }
+        ]
+      }, 
+      {
+    "id": "favorite_sports",
+    "title": "Favorite Sports",
+    "lines": [
+      { "id": 1, "speaker": "Mac", "english": "Hey Jock, what is your favorite sport?", "nuer": "Ɣëy Jɔk, ɛ ŋar ŋukä nhɔk lɔcdɛ jɛ ɛlɔ̱ŋ ɔ?" },
+      { "id": 2, "speaker": "Jɔk", "english": "My favorite sport is tennis. What is your favorite sport?", "nuer": "Ŋarä min nhɔakä ɛ tɛnith. Ɛ ŋar ŋukä nhɔk lɔcdu jɛ ɔ?" },
+      { "id": 3, "speaker": "Mac", "english": "I like to play baseball, but I like tennis, too! Who do you play with?", "nuer": "Ɣän nhɔk lɔcdä ŋar kɛ yɔ̱ɔ̱l, dundɛ ɣöö nhɔakä tɛnith, bäni̱! Ɛ ŋa la ŋarɛ kɛɛl ɔ?" },
+      { "id": 4, "speaker": "Jɔk", "english": "I play with my father. He’s a good tennis player.", "nuer": "La ŋarä kɛɛl kɛ gua̱a̱r. Jɛn ɛ ŋäär tɛnithä mi gɔaa." },
+      { "id": 5, "speaker": "Mac", "english": "How often do you play?", "nuer": "La yiɛn ɛ ŋar ni̱kä di̱?" },
+      { "id": 6, "speaker": "Jɔk", "english": "We play every weekend. Do you want to play with us?", "nuer": "La nɛy ɛ ŋar ni̱ni̱ lɔ̱ŋä diaal. Ji̱n go̱o̱ri̱ ŋar kɛ kɔ kɛɛl?" },
+      { "id": 7, "speaker": "Mac", "english": "Okay!", "nuer": "Ɣɔ̱ɔ̱!" }
+    ]
+  },
+      {
+        "id": "sickness_drugstore",
+        "title": "Sickness & Drugstore",
+        "lines": [
+          { "id": 1, "speaker": "Ba̱ba̱", "english": "What’s wrong, Taŋ?", "nuer": "Ɛ ŋu la riɛk ɔ, Taŋ?" },
+          { "id": 2, "speaker": "Taŋ", "english": "I feel sick. Ugghh...", "nuer": "Mocɛ ɣä jue̱y. ääɣɣ..." },
+          { "id": 3, "speaker": "Ba̱ba̱", "english": "That’s too bad.", "nuer": "Kä ɛn nɔmɔ ɛ mi jiääk ɛlɔ̱ŋ." },
+          { "id": 4, "speaker": "Taŋ", "english": "I want to go to the drugstore. I want to buy medicine. I want to go right now.", "nuer": "Ɣän göörä wä gua̱a̱th wal. Ɣän göörä kök kɛ wäl. Ɣän göörä wä ɛn tämɛ." },
+          { "id": 5, "speaker": "Ba̱ba̱", "english": "Do you want me to go with you?", "nuer": "Ji̱n go̱o̱ri̱ ɣöö wä kɛɛl kɛ ji̱?" },
+          { "id": 6, "speaker": "Taŋ", "english": "Yes, please!", "nuer": "Ɣää, kua̱ läŋ ni̱ ji̱!" }
+        ]
+      }
+    ];
+
+    async function loadDialogues() {
+        try {
+            const response = await fetch('dialogues.json');
+            if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
+            dialogues = await response.json();
+        } catch (error) {
+            console.warn("Fetch failed (running offline via file://). Loading embedded dialogues.", error);
+            dialogues = defaultDialogues;
+        }
+
+        if (dialogues && dialogues.length > 0) {
+            renderTopicButtons();
+            selectTopic(0);
+        } else {
+            document.getElementById('nuer-text').textContent = "No dialogues available.";
+        }
+    }
+
+    function renderTopicButtons() {
+        const selector = document.getElementById('topic-selector');
+        selector.innerHTML = dialogues.map((d, index) => `
+            <button class="topic-btn ${index === activeTopicIndex ? 'active' : ''}" onclick="selectTopic(${index})">
+                ${escapeHtml(d.title)}
+            </button>
+        `).join('');
+    }
+
+    function selectTopic(index) {
+        if (!dialogues[index]) return;
+        activeTopicIndex = index;
+        currentIndex = 0;
+        renderTopicButtons();
+        document.getElementById('topic-title').textContent = `💬 Dialogue: ${dialogues[activeTopicIndex].title}`;
+        updateCard();
+        if (document.getElementById('full-view').style.display !== 'none') {
+            renderFullConversation();
+        }
+    }
+
+    function updateCard() {
+        card.classList.remove('flipped');
+        const lines = dialogues[activeTopicIndex].lines;
+        const item = lines[currentIndex];
+
+        document.getElementById('speaker-front').textContent = item.speaker;
+        document.getElementById('speaker-back').textContent = item.speaker;
+        document.getElementById('nuer-text').textContent = item.nuer;
+        document.getElementById('english-text').textContent = item.english;
+        document.getElementById('progress-text').textContent = `Card ${currentIndex + 1} of ${lines.length}`;
+
+        document.getElementById('prev-btn').disabled = currentIndex === 0;
+        document.getElementById('next-btn').disabled = currentIndex === lines.length - 1;
+    }
+
+    function prevCard() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCard();
+        }
+    }
+
+    function nextCard() {
+        const lines = dialogues[activeTopicIndex].lines;
+        if (currentIndex < lines.length - 1) {
+            currentIndex++;
+            updateCard();
+        }
+    }
+
+    function switchView(mode) {
+        const flashView = document.getElementById('flashcard-view');
+        const fullView = document.getElementById('full-view');
+        const btnFlash = document.getElementById('btn-flashcards');
+        const btnFull = document.getElementById('btn-full');
+
+        if (mode === 'flashcards') {
+            flashView.style.display = 'flex';
+            fullView.style.display = 'none';
+            btnFlash.classList.add('active');
+            btnFull.classList.remove('active');
+        } else {
+            flashView.style.display = 'none';
+            fullView.style.display = 'flex';
+            btnFlash.classList.remove('active');
+            btnFull.classList.add('active');
+            renderFullConversation();
+        }
+    }
+
+    function renderFullConversation() {
+        const fullView = document.getElementById('full-view');
+        const lines = dialogues[activeTopicIndex].lines;
+        fullView.innerHTML = lines.map(line => `
+            <div class="dialogue-bubble">
+                <div class="dialogue-content">
+                    <div class="speaker-name">${escapeHtml(line.speaker)}</div>
+                    <div class="nuer-line">${escapeHtml(line.nuer)}</div>
+                    <div class="english-line">${escapeHtml(line.english)}</div>
+                </div>
+                <button class="small-audio-btn" onclick="speakText('${escapeHtml(line.nuer)}')">🔊 Listen</button>
+            </div>
+        `).join('');
+    }
+
+    function getPhoneticRepresentation(text) {
+        if (!text) return "";
+        return text
+            .replace(/DH/g, "Z")
+            .replace(/dh/g, "z")
+            .replace(/NY/g, "Ñ")
+            .replace(/Ny/g, "Ñ")
+            .replace(/ny/g, "ñ")
+            .replace(/Ɣ/g, "H")
+            .replace(/ɣ/g, "h")
+            .replace(/C([A-Za-zɛɔäëöâêîôûAEIOUaeiou])/g, "Ch$1")
+            .replace(/c([A-Za-zɛɔäëöâêîôûAEIOUaeiou])/g, "ch$1")
+            .replace(/C/g, "Tch")
+            .replace(/c/g, "tch");
+    }
+
+    function playCurrentAudio() {
+        speakText(dialogues[activeTopicIndex].lines[currentIndex].nuer);
+    }
+
+    function speakText(rawNuerText) {
+        if (!('speechSynthesis' in window)) {
+            alert("Text-to-speech is not supported in this browser.");
+            return;
+        }
+
+        const phoneticText = getPhoneticRepresentation(rawNuerText);
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(phoneticText);
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, (m) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        })[m]);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        const flashView = document.getElementById('flashcard-view');
+        if (flashView.style.display !== 'none' && dialogues.length > 0) {
+            if (e.code === 'ArrowLeft') prevCard();
+            if (e.code === 'ArrowRight') nextCard();
+            if (e.code === 'Space') {
+                e.preventDefault();
+                card.classList.toggle('flipped');
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadDialogues);
+    </script>
+</body>
+</html>

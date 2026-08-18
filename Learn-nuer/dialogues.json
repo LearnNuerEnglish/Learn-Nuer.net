@@ -1,0 +1,77 @@
+[
+  {
+    "id": "department_store",
+    "title": "Department Store",
+    "lines": [
+      { "id": 1, "speaker": "Jɔk", "english": "Hey Nyagoa, where are you going?", "nuer": "Ɣëy Nyagɔaa, Ji̱n wi̱i̱ ni̱kä?" },
+      { "id": 2, "speaker": "Nyagɔa", "english": "I am going to the department store. I want to buy a toy and some candy.", "nuer": "Ɣän wa̱a̱ kä thuk ko̱kä. Ɣän göörä kök kɛ duŋ ŋarä kɛnɛ alawani̱." },
+      { "id": 3, "speaker": "Jɔk", "english": "How much money do you have?", "nuer": "Ji̱n ti̱i̱ kɛ yio̱w da̱ŋ di̱?" },
+      { "id": 4, "speaker": "Nyagɔa", "english": "I have 10 dollars.", "nuer": "Ɣän ta̱a̱ kɛ yio̱w da̱ŋ wäl." },
+      { "id": 5, "speaker": "Jɔk", "english": "Are you going to buy a lot of candy?", "nuer": "Wä kɔkni̱ ji̱n kɛ alawani̱ ti̱ ŋuan?" },
+      { "id": 6, "speaker": "Nyagɔa", "english": "Yes, I am. I want to share my candy with you.", "nuer": "Ɣää, wa̱a̱ kɔk. Ɣän göörä bä alawani̱ nyuak kɛ ji̱ kɛɛl." },
+      { "id": 7, "speaker": "Jɔk", "english": "I like you, Nyagoa. You are nice.", "nuer": "Ɣän nhɔakä nyinku Nyagɔaa. Ɛ ji̱n ram mi̱ gɔaa." }
+    ]
+  },
+  {
+    "id": "sickness_drugstore",
+    "title": "Sickness & Drugstore",
+    "lines": [
+      { "id": 1, "speaker": "Ba̱ba̱", "english": "What’s wrong, Jay?", "nuer": "Ɛ ŋu la riɛk ɔ?" },
+      { "id": 2, "speaker": "Taŋ", "english": "I feel sick. Ugghh...", "nuer": "Mocɛ ɣä jue̱y. ääɣɣ..." },
+      { "id": 3, "speaker": "Ba̱ba̱", "english": "That’s too bad.", "nuer": "Kä ɛn nɔmɔ ɛ mi jiääk ɛlɔ̱ŋ." },
+      { "id": 4, "speaker": "Taŋ", "english": "I want to go to the drugstore. I want to buy medicine. I want to go right now.", "nuer": "Ɣän göörä wä gua̱a̱th wal. Ɣän göörä kök kɛ wäl. Ɣän göörä wä ɛn tämɛ." },
+      { "id": 5, "speaker": "Ba̱ba̱", "english": "Do you want me to go with you?", "nuer": "Ji̱n go̱o̱ri̱ ɣöö wä kɛɛl kɛ ji̱?" },
+      { "id": 6, "speaker": "Taŋ", "english": "Yes, please!", "nuer": "Ɣää, kua̱ läŋ ni̱ ji̱!" }
+    ]
+  },
+  {
+    "id": "favorite_sports",
+    "title": "Favorite Sports",
+    "lines": [
+      { "id": 1, "speaker": "Mac", "english": "Hey Jock, what is your favorite sport?", "nuer": "Ɣëy Jɔk, ɛ ŋar ŋukä nhɔk lɔcdɛ jɛ ɛlɔ̱ŋ ɔ?" },
+      { "id": 2, "speaker": "Jɔk", "english": "My favorite sport is tennis. What is your favorite sport?", "nuer": "Ŋarä min nhɔakä ɛ tɛnith. Ɛ ŋar ŋukä nhɔk lɔcdu jɛ ɔ?" },
+      { "id": 3, "speaker": "Mac", "english": "I like to play baseball, but I like tennis, too! Who do you play with?", "nuer": "Ɣän nhɔk lɔcdä ŋar kɛ yɔ̱ɔ̱l, dundɛ ɣöö nhɔakä tɛnith, bäni̱! Ɛ ŋa la ŋarɛ kɛɛl ɔ?" },
+      { "id": 4, "speaker": "Jɔk", "english": "I play with my father. He’s a good tennis player.", "nuer": "La ŋarä kɛɛl kɛ gua̱a̱r. Jɛn ɛ ŋäär tɛnithä mi gɔaa." },
+      { "id": 5, "speaker": "Mac", "english": "How often do you play?", "nuer": "La yiɛn ɛ ŋar ni̱kä di̱?" },
+      { "id": 6, "speaker": "Jɔk", "english": "We play every weekend. Do you want to play with us?", "nuer": "La nɛy ɛ ŋar ni̱ni̱ lɔ̱ŋä diaal. Ji̱n go̱o̱ri̱ ŋar kɛ kɔ kɛɛl?" },
+      { "id": 7, "speaker": "Mac", "english": "Okay!", "nuer": "Ɣɔ̱ɔ̱!" }
+    ]
+  },
+  {
+    "id": "camping_weekend",
+    "title": "Camping & Weekend",
+    "lines": [
+      { "id": 1, "speaker": "Duɔ̱ɔ̱p", "english": "What do you want to do this weekend?", "nuer": "Ɛ ŋu go̱o̱ri̱ bi lɛl kɛ ni̱n lɔ̱ŋä ti̱ti̱?" },
+      { "id": 2, "speaker": "Ja̱ny", "english": "I want to go to the mountains.", "nuer": "Ɣän göörä wä päämni̱." },
+      { "id": 3, "speaker": "Duɔ̱ɔ̱p", "english": "Why do you want to go there?", "nuer": "Ɛ ŋu go̱o̱ri̱ wä ɛn thɔ̱ŋ ɔ?" },
+      { "id": 4, "speaker": "Ja̱ny", "english": "I want to go camping! I want to sleep outside in a tent.", "nuer": "Ɣän göörä wä ja̱l dɔɔr! Ɣän göörä tɔ̱ɔ̱c raar rɛy kɛmɛkä." },
+      { "id": 5, "speaker": "Duɔ̱ɔ̱p", "english": "That sounds like fun! I want to go camping, too! Can I go with you?", "nuer": "Ce̱t lieŋdɛ kɛ mi dëë nhɔk! Ɣän göörä wä ja̱l dɔɔr, bäni̱! Ɣän /cä dee wä kɛɛl kɛ ji̱?" },
+      { "id": 6, "speaker": "Ja̱ny", "english": "You will have to ask your parents first.", "nuer": "Bi̱ diëëthku kɔn thiec kɛ nhiam." }
+    ]
+  },
+  {
+    "id": "saving_for_video_game",
+    "title": "Saving for a Game",
+    "lines": [
+      { "id": 1, "speaker": "Mama", "english": "What are you doing, Nyanene?", "nuer": "Ɛ ŋu lɛli̱ mɔ, Nyanɛnɛ?" },
+      { "id": 2, "speaker": "Nyanɛnɛ", "english": "I am counting money.", "nuer": "Ɣän kuɛ̈nä ni yio̱o̱wkä." },
+      { "id": 3, "speaker": "Mama", "english": "How much do you have?", "nuer": "Ti̱i̱ kɛ yio̱w da̱ŋ di̱?" },
+      { "id": 4, "speaker": "Nyanɛnɛ", "english": "I have 14 dollars. I don’t have enough to buy a new video game.", "nuer": "Ɣän ta̱a̱ kɛ yio̱w da̱ŋ wäl ŋuaan. Ɣän /cä tekɛ yio̱w ti̱ ro̱ŋ ti kɔakɛ vi̱diö gëëm." },
+      { "id": 5, "speaker": "Mama", "english": "How much do you need?", "nuer": "Ji̱n go̱o̱ri̱ yio̱w da̱ŋ di̱?" },
+      { "id": 6, "speaker": "Nyanɛnɛ", "english": "I need to save 5 more dollars to buy the video game.", "nuer": "Ɣän göörä ɣöö bä yio̱w da̱ŋ dhieec ti̱ kɔ̱kiɛn dol kɛ ɣöö bä kɔk kɛ video game." },
+      { "id": 7, "speaker": "Mama", "english": "Are you sure you want to spend all of your money?", "nuer": "Ɛ thuɔ̱k i̱ go̱o̱ri̱ bi̱ yio̱wku diaal kɔak?" },
+      { "id": 8, "speaker": "Nyanɛnɛ", "english": "I think it’s fun to spend money, don’t you?", "nuer": "Ɣän carä jɛ, jɛn ɛ mi̱ tɛth lɔc nath ɛn kɔk yio̱wni̱, kä ji̱n /ciɛ car?" }
+    ]
+  },
+  {
+    "id": "afraid_of_dog",
+    "title": "Playing & Big Dog",
+    "lines": [
+      { "id": 1, "speaker": "Daaŋ", "english": "What do you want to do today, Buay?", "nuer": "Ɛ ŋu go̱o̱ri̱ i̱ bi lɛl ɛn walɛ, Buay?" },
+      { "id": 2, "speaker": "Buay", "english": "I want to play baseball with my little brother. What do you want to do?", "nuer": "Ɣän göörä ŋar kɛ yɔ̱ɔ̱l kɛɛl kɛ dämaar. Ji̱n ɛ ŋu go̱o̱ri̱ i̱ bi lɛl?" },
+      { "id": 3, "speaker": "Daaŋ", "english": "I want to play outside, but I can’t.", "nuer": "Ɣän göörä ɣöö bä ŋar raar, dundɛ ɣöö /cä rɔ luäŋ?" },
+      { "id": 4, "speaker": "Buay", "english": "Why not?", "nuer": "Kɛ ɣöö i̱di̱?" },
+      { "id": 5, "speaker": "Daaŋ", "english": "Because there is a big brown dog outside. I am afraid the big dog will bite me.", "nuer": "Kɛ ɣöö tëkɛ ji̱o̱k mi lual mi di̱i̱t mi te raar. Ɣän dualä kɛ ɣöö jio̱k mi di̱i̱t bɛ ɣä ka̱c." }
+    ]
+  }
+]

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary — Learn Nuer</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    
+    <!-- Fonts & CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="images/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#102a43">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <style>
+        body {
+            font-family: "Times New Roman", Times, Georgia, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .phonetics-box {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #2b6cb0;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: #334155;
+            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .phonetics-box strong {
+            color: #0f172a;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 2rem;
+            background: #ffffff;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-container input, .search-container select {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1.1rem;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+        }
+
+        .search-container input {
+            flex: 1;
+        }
+
+        .dictionary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dict-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dict-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        .nuer-word {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .phonetic-hint {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-style: italic;
+            margin-top: 2px;
+        }
+
+        .badge-speech {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-style: italic;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .english-translation {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin: 6px 0;
+        }
+
+        .definition-text {
+            font-size: 1rem;
+            color: #4b5563;
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+
+        .audio-btn {
+            font-family: 'DM Sans', sans-serif;
+            background: #2b6cb0;
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 12px;
+            width: fit-content;
+            transition: background 0.2s ease;
+        }
+
+        .audio-btn:hover {
+            background: #2c5282;
+        }
+
+        .loading-text {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.2rem;
+            padding: 2rem;
+            color: #64748b;
+        }
+    </style>
+    <header>
+        <div class="header-inner">
+
+            <div class="brand">
+                <div class="brand-mark">Ɲ</div>
+
+                <div>
+                    <h1>Learn Nuer — Thok Nath</h1>
+                    <p>Digital preservation and educational hub for the Nuer language</p>
+                </div>
+            </div>
+
+            <nav>
+
+                <a href="index.html" class="logo-link">
+                    <img src="images/logo.png" alt="Learn Nuer Logo" class="site-logo">
+                </a>
+                <a href="index.html">🏠 Home</a>
+                <a href="lessons.html">🎓 Lessons</a>
+                <a href="dictionary.html" class="active">📖 Dictionary</a>
+                <a href="grammar.html">📚 Grammar</a>
+                <a href="numbers.html">🔢 Numbers</a>
+                <a href="time.html">🕐 Time & Dates</a>
+                <a href="conversations.html">💬 Conversations</a>
+                <a href="keyboard.html">⌨️ Keyboard</a>
+                <a href="about.html">ℹ️ About</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+            <input type="text" id="search-input" placeholder="Search Nuer or English terms..." />
+            <select id="speech-filter">
+                <option value="">All Part of Speech</option>
+            </select>
+
+        <div id="dictionary-container" class="dictionary-grid">
+            <div class="loading-text">Loading words from 'gat' table...</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <strong>Learn Nuer — Thok Nath</strong>
+                <p>Digital preservation and education for the Nuer language.</p>
+            </div>
+            <p>© 2026 Learn Nuer — Thok Nath</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/dictionary.js"></script>
+</body>
+</html>

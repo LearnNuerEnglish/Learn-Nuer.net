@@ -1,0 +1,12 @@
+# Robots.txt for Learn Nuer — Thok Nath
+# Permitting full crawling of all site assets, pages, and JSON data files
+
+User-agent: *
+Allow: /
+Allow: /*.json
+Allow: /*.js
+Allow: /*.css
+Allow: /images/
+
+# XML Sitemap Location
+Sitemap: https://learn-nuer.netlify.app/sitemap.xml
