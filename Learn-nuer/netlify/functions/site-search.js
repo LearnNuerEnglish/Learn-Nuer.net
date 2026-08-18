@@ -9,15 +9,12 @@ export async function handler(event, context) {
 
   try {
     const { userQuery } = JSON.parse(event.body);
-    if (!userQuery) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Query is required" }) };
-    }
 
-    // List of HTML files inside your repository
+    // Explicitly include dictionary.html
     const htmlFiles = [
       'index.html',
-      'conversations.html',
       'dictionary.html',
+      'conversations.html',
       'grammar.html',
       'lessons.html',
       'numbers.html',
@@ -28,15 +25,12 @@ export async function handler(event, context) {
 
     let combinedWebsiteText = "";
 
-    // Read and clean HTML text from files
     for (const fileName of htmlFiles) {
-      // Adjust path if your HTML files are located inside a subfolder like 'Learn-nuer'
       const filePath = path.resolve('./', fileName);
-      
       if (fs.existsSync(filePath)) {
         const rawHtml = fs.readFileSync(filePath, 'utf8');
-        
-        // Remove scripts and styles before stripping tags
+
+        // Remove script and style tags before stripping HTML tags
         const cleanContent = rawHtml
           .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
           .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
@@ -46,7 +40,7 @@ export async function handler(event, context) {
       }
     }
 
-    // Call Groq AI API (Free Llama 3)
+    // Call Groq Llama 3 API
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -55,27 +49,19 @@ export async function handler(event, context) {
       },
       body: JSON.stringify({
         model: "llama-3.1-8b-instant",
-        temperature: 0.2,
+        temperature: 0.1,
         messages: [
           {
             role: "system",
-            content: `You are an AI assistant for the Learn Nuer website.
-STRICT RULE: Answer the user's question using ONLY the provided HTML page text from the website. If you cannot find the answer in the text, respond: "I couldn't find that on the website."
-
---- WEBSITE DATA START ---
-${combinedWebsiteText}
---- WEBSITE DATA END ---`
+            content: `You are an AI assistant for Learn Nuer. Strictly answer questions using ONLY the text provided below. Mention which page (e.g. dictionary.html) the answer was found on.\n\n--- WEBSITE CONTENT ---\n${combinedWebsiteText}`
           },
-          {
-            role: "user",
-            content: userQuery
-          }
+          { role: "user", content: userQuery }
         ]
       })
     });
 
     const data = await response.json();
-    const reply = data.choices[0]?.message?.content || "No response received.";
+    const reply = data.choices[0]?.message?.content || "No result found.";
 
     return {
       statusCode: 200,
@@ -84,10 +70,9 @@ ${combinedWebsiteText}
     };
 
   } catch (error) {
-    console.error("Error searching site:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to search site code." })
+      body: JSON.stringify({ error: "Search failed." })
     };
   }
 }
