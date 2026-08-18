@@ -169,6 +169,8 @@
             color: #64748b;
         }
     </style>
+</head>
+<body>
     <header>
         <div class="header-inner">
 
@@ -182,7 +184,6 @@
             </div>
 
             <nav>
-
                 <a href="index.html" class="logo-link">
                     <img src="images/logo.png" alt="Learn Nuer Logo" class="site-logo">
                 </a>
@@ -202,41 +203,52 @@
 
     <main>
         <!-- AI Search Box for Dictionary Page -->
-<div class="ai-search-card" style="background: #ffffff; padding: 1.25rem; border-radius: 8px; border: 1px solid #cbd5e1; border-left: 5px solid #2563eb; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-    <h3 style="margin: 0 0 0.5rem 0; font-family: 'DM Sans', sans-serif; color: #0f172a;">🤖 AI Dictionary Assistant</h3>
-    <div style="display: flex; gap: 10px;">
-        <input type="text" id="ai-dict-query" placeholder="Ask AI about a Nuer word, phonetic, or grammar rule..." style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e0; font-family: 'DM Sans', sans-serif;" />
-        <button onclick="askDictionaryAI()" style="padding: 10px 18px; background: #2b6cb0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Ask AI</button>
-    </div>
-    <div id="ai-dict-result" style="margin-top: 1rem; font-family: 'DM Sans', sans-serif; line-height: 1.5; color: #334155;"></div>
-</div>
+        <div class="ai-search-card" style="background: #ffffff; padding: 1.25rem; border-radius: 8px; border: 1px solid #cbd5e1; border-left: 5px solid #2563eb; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            <h3 style="margin: 0 0 0.5rem 0; font-family: 'DM Sans', sans-serif; color: #0f172a;">🤖 AI Dictionary Assistant</h3>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="ai-dict-query" placeholder="Ask AI about a Nuer word, phonetic, or grammar rule..." style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e0; font-family: 'DM Sans', sans-serif;" />
+                <button onclick="askDictionaryAI()" style="padding: 10px 18px; background: #2b6cb0; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Ask AI</button>
+            </div>
+            <div id="ai-dict-result" style="margin-top: 1rem; font-family: 'DM Sans', sans-serif; line-height: 1.5; color: #334155;"></div>
+        </div>
 
-<script>
-async function askDictionaryAI() {
-    const input = document.getElementById('ai-dict-query').value;
-    const resultDiv = document.getElementById('ai-dict-result');
-    if (!input) return;
+        <script>
+        async function askDictionaryAI() {
+            const input = document.getElementById('ai-dict-query').value;
+            const resultDiv = document.getElementById('ai-dict-result');
+            if (!input) return;
 
-    resultDiv.innerHTML = "<em>Searching dictionary and site content...</em>";
+            resultDiv.innerHTML = "<em>Searching dictionary and site content...</em>";
 
-    try {
-        const response = await fetch('/.netlify/functions/site-search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userQuery: input })
+            try {
+                const response = await fetch('/.netlify/functions/site-search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userQuery: input })
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML = "<strong>Answer:</strong><br>" + (data.reply ? data.reply.replace(/\n/g, "<br>") : "No response returned.");
+            } catch (err) {
+                resultDiv.innerHTML = "<span style='color: #dc2626;'>Error connecting to AI search. Ensure Netlify Functions are deployed.</span>";
+            }
+        }
+
+        // Enable pressing "Enter" key to trigger AI Search
+        document.getElementById('ai-dict-query').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                askDictionaryAI();
+            }
         });
+        </script>
 
-        const data = await response.json();
-        resultDiv.innerHTML = "<strong>Answer:</strong><br>" + data.reply.replace(/\n/g, "<br>");
-    } catch (err) {
-        resultDiv.innerHTML = "<span style='color: #dc2626;'>Error connecting to AI search. Ensure Netlify Functions are deployed.</span>";
-    }
-}
-</script>
+        <!-- Standard Dictionary Search Container -->
+        <div class="search-container">
             <input type="text" id="search-input" placeholder="Search Nuer or English terms..." />
             <select id="speech-filter">
                 <option value="">All Part of Speech</option>
             </select>
+        </div>
 
         <div id="dictionary-container" class="dictionary-grid">
             <div class="loading-text">Loading words from 'gat' table...</div>
