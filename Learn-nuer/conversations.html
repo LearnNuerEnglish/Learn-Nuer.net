@@ -10,16 +10,13 @@
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#102a43">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    
-    <!-- Optimized Font Loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    
     <style>
         body {
-            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "Times New Roman", Times, serif;
             margin: 0;
             padding: 0;
             background-color: #f8f9fa;
@@ -34,7 +31,6 @@
 
         header h1 {
             margin: 0 0 0.5rem 0;
-            font-family: "Playfair Display", Georgia, serif;
         }
 
         nav a {
@@ -51,29 +47,62 @@
         }
 
         main {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 2rem auto;
             padding: 0 1.5rem;
         }
 
+        /* Two-Column Layout with Sidebar on Left */
+        .dialogue-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .sidebar-nav {
+            width: 240px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 2rem;
+            background: #ffffff;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-nav h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #1a1a1a;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 0.5rem;
+        }
+
         .dialogue-selector {
             display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .topic-btn {
-            font-family: inherit;
+            font-family: "Times New Roman", Times, serif;
             font-size: 0.95rem;
-            padding: 8px 14px;
+            padding: 10px 14px;
             border: 1px solid #2563eb;
             background: #ffffff;
             color: #2563eb;
-            border-radius: 20px;
+            border-radius: 8px;
             cursor: pointer;
+            text-align: left;
             transition: all 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .topic-btn:hover {
+            background: #eff6ff;
         }
 
         .topic-btn.active {
@@ -81,15 +110,20 @@
             color: #ffffff;
         }
 
+        .content-area {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
         .view-toggle {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 12px;
             margin-bottom: 2rem;
         }
 
         .toggle-btn {
-            font-family: inherit;
+            font-family: "Times New Roman", Times, serif;
             font-size: 1rem;
             padding: 8px 16px;
             border: 1px solid #1a1a1a;
@@ -124,13 +158,12 @@
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-radius: 12px;
             background: #ffffff;
             border: 1px solid #e2e8f0;
-            will-change: transform;
         }
 
         .flashcard.flipped {
@@ -142,12 +175,11 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 1.5rem;
-            box-sizing: border-border-box;
+            box-sizing: border-box;
             border-radius: 12px;
         }
 
@@ -202,7 +234,7 @@
         }
 
         .action-btn {
-            font-family: inherit;
+            font-family: "Times New Roman", Times, serif;
             font-size: 1rem;
             padding: 8px 16px;
             border: 1px solid #1a1a1a;
@@ -237,11 +269,35 @@
         .dialogue-list {
             display: flex;
             flex-direction: column;
+            gap: 2rem;
+        }
+
+        .topic-section {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            scroll-margin-top: 2rem;
+        }
+
+        .topic-header {
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 1.25rem;
+        }
+
+        .lines-list {
+            display: flex;
+            flex-direction: column;
             gap: 1rem;
         }
 
         .dialogue-bubble {
-            background: #ffffff;
+            background: #f8f9fa;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 1rem 1.25rem;
@@ -276,7 +332,7 @@
         }
 
         .small-audio-btn {
-            font-family: inherit;
+            font-family: "Times New Roman", Times, serif;
             background: #1a1a1a;
             color: #ffffff;
             border: none;
@@ -285,6 +341,19 @@
             cursor: pointer;
             margin-left: 12px;
             white-space: nowrap;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .dialogue-layout {
+                flex-direction: column;
+            }
+
+            .sidebar-nav {
+                width: 100%;
+                position: static;
+                box-sizing: border-box;
+            }
         }
     </style>
 </head>
@@ -317,41 +386,50 @@
     <main>
         <h2 id="topic-title">💬 Dialogue Practice</h2>
 
-        <div class="dialogue-selector" id="topic-selector"></div>
+        <div class="dialogue-layout">
+            <!-- Left Side Navigation -->
+            <aside class="sidebar-nav">
+                <h3>Topics</h3>
+                <div class="dialogue-selector" id="topic-selector"></div>
+            </aside>
 
-        <div class="view-toggle">
-            <button class="toggle-btn active" id="btn-flashcards" onclick="switchView('flashcards')">🎴 Flashcard Mode</button>
-            <button class="toggle-btn" id="btn-full" onclick="switchView('full')">📜 Full Conversation Mode</button>
-        </div>
-
-        <!-- Mode 1: Interactive Flashcards -->
-        <section id="flashcard-view" class="flashcard-section">
-            <div class="flashcard-container" id="card-container">
-                <div class="flashcard" id="card">
-                    <div class="card-face card-front">
-                        <span class="speaker-tag" id="speaker-front">Jɔk</span>
-                        <div class="dialogue-text" id="nuer-text">...</div>
-                        <div class="flip-hint">Click card to flip for English 🔄</div>
-                    </div>
-                    <div class="card-face card-back">
-                        <span class="speaker-tag" id="speaker-back">Jɔk</span>
-                        <div class="dialogue-text" id="english-text">...</div>
-                        <div class="flip-hint">Click card to flip for Nuer 🔄</div>
-                    </div>
+            <!-- Main Dialogue Content -->
+            <div class="content-area">
+                <div class="view-toggle">
+                    <button class="toggle-btn active" id="btn-full" onclick="switchView('full')">📜 Full Conversation Mode</button>
+                    <button class="toggle-btn" id="btn-flashcards" onclick="switchView('flashcards')">🎴 Flashcard Mode</button>
                 </div>
+
+                <!-- Mode 1: Interactive Flashcards -->
+                <section id="flashcard-view" class="flashcard-section" style="display: none;">
+                    <div class="flashcard-container" id="card-container">
+                        <div class="flashcard" id="card">
+                            <div class="card-face card-front">
+                                <span class="speaker-tag" id="speaker-front">Jɔk</span>
+                                <div class="dialogue-text" id="nuer-text">Loading...</div>
+                                <div class="flip-hint">Click card to flip for English 🔄</div>
+                            </div>
+                            <div class="card-face card-back">
+                                <span class="speaker-tag" id="speaker-back">Jɔk</span>
+                                <div class="dialogue-text" id="english-text">Loading...</div>
+                                <div class="flip-hint">Click card to flip for Nuer 🔄</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <button class="action-btn" id="prev-btn" onclick="prevCard()">← Previous</button>
+                        <button class="action-btn audio-btn" onclick="event.stopPropagation(); playCurrentAudio();">🔊 Pronounce</button>
+                        <button class="action-btn" id="next-btn" onclick="nextCard()">Next →</button>
+                    </div>
+
+                    <div class="progress" id="progress-text">Card 1 of 7</div>
+                </section>
+
+                <!-- Mode 2: Full Conversation View (Default) -->
+                <section id="full-view" class="dialogue-list"></section>
             </div>
-
-            <div class="controls">
-                <button class="action-btn" id="prev-btn" onclick="prevCard()">← Previous</button>
-                <button class="action-btn audio-btn" onclick="event.stopPropagation(); playCurrentAudio();">🔊 Pronounce</button>
-                <button class="action-btn" id="next-btn" onclick="nextCard()">Next →</button>
-            </div>
-
-            <div class="progress" id="progress-text">Card 1</div>
-        </section>
-
-        <!-- Mode 2: Full Conversation View -->
-        <section id="full-view" class="dialogue-list" style="display: none;"></section>
+        </div>
     </main>
 
     <footer>
@@ -365,7 +443,17 @@
     </footer>
 
     <script>
-    // Embedded dataset used for instantaneous zero-latency rendering
+    let dialogues = [];
+    let activeTopicIndex = 0;
+    let currentIndex = 0;
+
+    const cardContainer = document.getElementById('card-container');
+    const card = document.getElementById('card');
+
+    cardContainer.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+    });
+
     const defaultDialogues = [
       {
         "id": "department_store",
@@ -407,33 +495,23 @@
       }
     ];
 
-    let dialogues = defaultDialogues;
-    let activeTopicIndex = 0;
-    let currentIndex = 0;
+    async function loadDialogues() {
+        try {
+            const response = await fetch('dialogues.json');
+            if (!response.ok) throw new Error(`HTTP error status: ${response.status}`);
+            dialogues = await response.json();
+        } catch (error) {
+            console.warn("Fetch failed (running offline via file://). Loading embedded dialogues.", error);
+            dialogues = defaultDialogues;
+        }
 
-    const cardContainer = document.getElementById('card-container');
-    const card = document.getElementById('card');
-
-    cardContainer.addEventListener('click', () => {
-        card.classList.toggle('flipped');
-    });
-
-    // Synchronous execution on DOM load
-    function init() {
-        renderTopicButtons();
-        selectTopic(0);
-        
-        // Background check for dynamic updates (does not block initial view)
-        fetch('dialogues.json')
-            .then(res => res.ok ? res.json() : null)
-            .then(data => {
-                if (data && JSON.stringify(data) !== JSON.stringify(dialogues)) {
-                    dialogues = data;
-                    renderTopicButtons();
-                    updateCard();
-                }
-            })
-            .catch(() => {}); // Quietly fallback to defaultDialogues
+        if (dialogues && dialogues.length > 0) {
+            renderTopicButtons();
+            selectTopic(0);
+            renderFullConversation();
+        } else {
+            document.getElementById('full-view').innerHTML = "<p>No dialogues available.</p>";
+        }
     }
 
     function renderTopicButtons() {
@@ -450,10 +528,17 @@
         activeTopicIndex = index;
         currentIndex = 0;
         renderTopicButtons();
-        document.getElementById('topic-title').textContent = `💬 Dialogue: ${dialogues[activeTopicIndex].title}`;
-        updateCard();
-        if (document.getElementById('full-view').style.display !== 'none') {
-            renderFullConversation();
+        
+        const flashView = document.getElementById('flashcard-view');
+        if (flashView.style.display !== 'none') {
+            document.getElementById('topic-title').textContent = `💬 Dialogue: ${dialogues[activeTopicIndex].title}`;
+            updateCard();
+        } else {
+            document.getElementById('topic-title').textContent = `💬 Dialogue Practice`;
+            const element = document.getElementById(`topic-${dialogues[index].id}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     }
 
@@ -498,27 +583,36 @@
             fullView.style.display = 'none';
             btnFlash.classList.add('active');
             btnFull.classList.remove('active');
+            document.getElementById('topic-title').textContent = `💬 Dialogue: ${dialogues[activeTopicIndex].title}`;
+            updateCard();
         } else {
             flashView.style.display = 'none';
             fullView.style.display = 'flex';
             btnFlash.classList.remove('active');
             btnFull.classList.add('active');
+            document.getElementById('topic-title').textContent = `💬 Dialogue Practice`;
             renderFullConversation();
         }
     }
 
     function renderFullConversation() {
         const fullView = document.getElementById('full-view');
-        const lines = dialogues[activeTopicIndex].lines;
-        fullView.innerHTML = lines.map(line => `
-            <div class="dialogue-bubble">
-                <div class="dialogue-content">
-                    <div class="speaker-name">${escapeHtml(line.speaker)}</div>
-                    <div class="nuer-line">${escapeHtml(line.nuer)}</div>
-                    <div class="english-line">${escapeHtml(line.english)}</div>
+        fullView.innerHTML = dialogues.map(topic => `
+            <section class="topic-section" id="topic-${escapeHtml(topic.id)}">
+                <h3 class="topic-header">${escapeHtml(topic.title)}</h3>
+                <div class="lines-list">
+                    ${topic.lines.map(line => `
+                        <div class="dialogue-bubble">
+                            <div class="dialogue-content">
+                                <div class="speaker-name">${escapeHtml(line.speaker)}</div>
+                                <div class="nuer-line">${escapeHtml(line.nuer)}</div>
+                                <div class="english-line">${escapeHtml(line.english)}</div>
+                            </div>
+                            <button class="small-audio-btn" onclick="speakText('${escapeHtml(line.nuer)}')">🔊 Listen</button>
+                        </div>
+                    `).join('')}
                 </div>
-                <button class="small-audio-btn" onclick="speakText('${escapeHtml(line.nuer)}')">🔊 Listen</button>
-            </div>
+            </section>
         `).join('');
     }
 
@@ -577,7 +671,7 @@
         }
     });
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', loadDialogues);
     </script>
 </body>
 </html>
