@@ -221,12 +221,134 @@
                 <option value="medium" selected>AI: Medium</option>
                 <option value="hard">AI: Hard</option>
             </select>
+            <button id="sound-btn" onclick="toggleSound()">Sound: ON</button>
             <button onclick="newGame()">New Game</button>
         </div>
     </div>
 </div>
 
 <script>
+// Web Audio Sound Synthesizer
+class GameAudio {
+  constructor() {
+    this.audioCtx = null;
+    this.enabled = true;
+  }
+
+  _initCtx() {
+    if (!this.audioCtx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) this.audioCtx = new AudioCtx();
+    }
+    if (this.audioCtx && this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+  }
+
+  playSow() {
+    if (!this.enabled) return;
+    this._initCtx();
+    if (!this.audioCtx) return;
+
+    const osc = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(320 + Math.random() * 80, this.audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(120, this.audioCtx.currentTime + 0.05);
+
+    gain.gain.setValueAtTime(0.3, this.audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.05);
+
+    osc.connect(gain);
+    gain.connect(this.audioCtx.destination);
+
+    osc.start();
+    osc.stop(this.audioCtx.currentTime + 0.05);
+  }
+
+  playRelay() {
+    if (!this.enabled) return;
+    this._initCtx();
+    if (!this.audioCtx) return;
+
+    const osc = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(440, this.audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, this.audioCtx.currentTime + 0.08);
+
+    gain.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.08);
+
+    osc.connect(gain);
+    gain.connect(this.audioCtx.destination);
+
+    osc.start();
+    osc.stop(this.audioCtx.currentTime + 0.08);
+  }
+
+  playCapture() {
+    if (!this.enabled) return;
+    this._initCtx();
+    if (!this.audioCtx) return;
+
+    const now = this.audioCtx.currentTime;
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+
+    notes.forEach((freq, index) => {
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + index * 0.05);
+
+      gain.gain.setValueAtTime(0.3, now + index * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.05 + 0.12);
+
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start(now + index * 0.05);
+      osc.stop(now + index * 0.05 + 0.12);
+    });
+  }
+
+  playGameOver() {
+    if (!this.enabled) return;
+    this._initCtx();
+    if (!this.audioCtx) return;
+
+    const now = this.audioCtx.currentTime;
+    const notes = [440, 554.37, 659.25, 880];
+
+    notes.forEach((freq, index) => {
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now + index * 0.1);
+
+      gain.gain.setValueAtTime(0.3, now + index * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.1 + 0.25);
+
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start(now + index * 0.1);
+      osc.stop(now + index * 0.1 + 0.25);
+    });
+  }
+}
+
+const audioManager = new GameAudio();
+
+function toggleSound() {
+  audioManager.enabled = !audioManager.enabled;
+  document.getElementById('sound-btn').innerText = `Sound: ${audioManager.enabled ? 'ON' : 'OFF'}`;
+}
+
 class YietGame {
   constructor() {
     this.board = Array.from({ length: 4 }, () => Array(13).fill(2));
@@ -413,6 +535,7 @@ function renderBoard() {
   updatePhaseUI();
 
   if (game.gameOver) {
+    audioManager.playGameOver();
     const losingPlayer = game.winner === 1 ? 2 : (game.winner === 2 ? 1 : null);
     if (losingPlayer) {
       gameOverMsgElement.innerText = `Game Over! Player ${game.winner} Wins!`;
@@ -525,10 +648,12 @@ async function handleHoleClick(row, col) {
     if (step.type === 'start') {
         updateHoleVisual(step.row, step.col, 0); 
     } else if (step.type === 'sow') {
+        audioManager.playSow();
         const hole = updateHoleVisual(step.row, step.col, step.newSeeds, true);
         await new Promise(r => setTimeout(r, delay));
         if (hole) hole.classList.remove('active-step');
     } else if (step.type === 'capture_reset') {
+        audioManager.playCapture();
         const oppPlayer = game.currentPlayer === 2 ? 1 : 2;
         const [oppInner, oppOuter] = game._getOpponentHoles(oppPlayer, step.col);
         
@@ -541,6 +666,7 @@ async function handleHoleClick(row, col) {
         if (holeOuter) holeOuter.classList.remove('active-step');
         if (restartHole) restartHole.classList.remove('origin-step');
     } else if (step.type === 'relay') {
+        audioManager.playRelay();
         updateHoleVisual(step.row, step.col, 0);
     }
   }
