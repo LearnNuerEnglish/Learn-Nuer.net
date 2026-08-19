@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yiët Game Interface</title>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body { 
             font-family: 'Times New Roman', Times, serif, sans-serif; 
@@ -111,6 +113,56 @@
         .difficulty-select { display: flex; flex-direction: column; gap: 5px; font-size: 0.9em; font-weight: bold; }
         #game-over-msg { font-size: 1.3em; font-weight: bold; color: #ef4444; margin-top: 10px; text-align: center; }
         h2, h3 { margin-top: 0; color: #f3e5ab; }
+
+        /* Victory Celebration Overlay */
+        .victory-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .victory-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .victory-card {
+            background: linear-gradient(145deg, #3b2816, #5c3a1e);
+            border: 4px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px 50px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            transform: scale(0.7);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .victory-overlay.show .victory-card {
+            transform: scale(1);
+        }
+
+        .victory-title {
+            font-size: 2.5em;
+            color: #ffd700;
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .victory-subtitle {
+            font-size: 1.2em;
+            color: #f3e5ab;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -157,6 +209,15 @@
                 <button onclick="alert('Yiët Rules:\n1. Minimum 2 seeds required to move.\n2. A player LOSES if all their remaining holes contain 1 seed or less.\n3. Capturing (eating) activates AUTOMATICALLY after opening moves.\n4. Capturing occurs only when BOTH inner and outer opponent holes in that column contain seeds.')">Instructions</button>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Victory Celebration Overlay Modal -->
+<div id="victory-overlay" class="victory-overlay">
+    <div class="victory-card">
+        <h1 id="victory-title" class="victory-title">🎉 Victory! 🎉</h1>
+        <p id="victory-subtitle" class="victory-subtitle">Player 1 wins the match!</p>
+        <button onclick="closeVictoryOverlay(); newGame();" class="action-btn" style="font-size: 1.1em; padding: 10px 20px;">Play Again</button>
     </div>
 </div>
 
@@ -297,6 +358,7 @@ let isAIEnabled = true;
 let aiDifficulty = 'medium';
 
 function newGame() {
+  closeVictoryOverlay();
   game = new YietGame();
   gameOverMsgElement.innerText = '';
   updatePhaseUI();
@@ -324,6 +386,35 @@ function updatePhaseUI() {
   }
 }
 
+function closeVictoryOverlay() {
+  document.getElementById('victory-overlay').classList.remove('show');
+}
+
+function triggerCelebration(winnerText, detailsText) {
+  document.getElementById('victory-title').innerText = winnerText;
+  document.getElementById('victory-subtitle').innerText = detailsText;
+  document.getElementById('victory-overlay').classList.add('show');
+
+  if (typeof confetti === 'function') {
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1001 };
+
+    const interval = setInterval(function() {
+      const timeLeft = animationEnd - Date.now();
+      if (timeLeft <= 0) return clearInterval(interval);
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+      confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+    }, 250);
+  }
+}
+
+function randomInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 function renderBoard() {
   gameBoardElement.innerHTML = '';
   for (let r = 0; r < 4; r++) {
@@ -333,7 +424,7 @@ function renderBoard() {
       const holeDiv = document.createElement('div');
       const seeds = game.board[r][c];
       holeDiv.className = `hole ${seeds === 0 ? 'empty' : ''}`;
-      holeDiv.innerText = seeds === 0 ? '' : seeds; // Hide 0 for empty pits
+      holeDiv.innerText = seeds === 0 ? '' : seeds; 
       holeDiv.id = `hole-${r}-${c}`;
       if (!game.gameOver) {
         const canMoveFromHole = game.currentPlayer === 1 ? (r === 2 || r === 3) : (r === 0 || r === 1);
@@ -356,7 +447,11 @@ function renderBoard() {
   if (game.gameOver) {
     const losingPlayer = game.winner === 1 ? 2 : (game.winner === 2 ? 1 : null);
     if (losingPlayer) {
-      gameOverMsgElement.innerText = `Game Over! Player ${game.winner} Wins! Player ${losingPlayer} has no holes with 2+ seeds.`;
+      const winTitle = `🎉 Player ${game.winner} Wins! 🎉`;
+      const winSub = `Player ${losingPlayer} has no remaining legal moves!`;
+      gameOverMsgElement.innerText = `Game Over! Player ${game.winner} Wins!`;
+      
+      setTimeout(() => triggerCelebration(winTitle, winSub), 300);
     } else {
       gameOverMsgElement.innerText = `Game Over! Draw game.`;
     }
@@ -506,7 +601,7 @@ async function handleHoleClick(row, col) {
 function updateHoleVisual(row, col, seeds, highlight = false, isOrigin = false) {
     const hole = document.getElementById(`hole-${row}-${col}`);
     if (!hole) return null;
-    hole.innerText = seeds === 0 ? '' : seeds; // Hide 0 for empty pits
+    hole.innerText = seeds === 0 ? '' : seeds;
     if (seeds === 0) hole.classList.add('empty'); else hole.classList.remove('empty');
     if (highlight) hole.classList.add('active-step');
     if (isOrigin) hole.classList.add('origin-step');
